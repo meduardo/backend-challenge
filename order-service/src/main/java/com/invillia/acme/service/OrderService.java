@@ -1,6 +1,6 @@
 package com.invillia.acme.service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import com.invillia.acme.model.entity.Item;
@@ -10,5 +10,5 @@ public interface OrderService {
 	
 	Optional<Order> findBy(final long id);
 	
-	Order create(final String address, final Collection<Item> itens);
+	Order create(final String address, final List<Item> itens);
 }
