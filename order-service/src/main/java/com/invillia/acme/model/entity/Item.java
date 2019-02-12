@@ -3,26 +3,30 @@ package com.invillia.acme.model.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-/**
- * 
- * @author <a href="mailto:m.eduardo5@gmail.com">Mario Eduardo Giolo</a>
- *
- */
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
+
+@RedisHash("itens")
 public class Item implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	@Id
 	private Long id;
+
+	@Indexed
 	private String description;
+	
 	private BigDecimal price;
+	
 	private int amount;
 	
 	Item() {
 		
 	}
 	
-	public Item(Long id, String description, BigDecimal price, int amount) {
-		this.id = id;
+	public Item(final String description, final BigDecimal price, final int amount) {
 		this.description = description;
 		this.price = price;
 		this.amount = amount;
