@@ -5,28 +5,37 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Reference;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
+
+@RedisHash("orders")
 public class Order implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
 	private Long id;
 	
+	@Indexed
 	private String address;
 
+	@Reference
 	private List<Item> itens;
 	
+	@Indexed
 	private OrderStatus status;
 
 	private Optional<LocalDateTime> confirmationDate;
 	
 	Order(){}
 
-	public Order(final Long id, final String address, final List<Item> itens, final OrderStatus status, final LocalDateTime confirmationDate) {
-		this.id = id;
+	public Order(final String address, final List<Item> itens, final OrderStatus status, final Optional<LocalDateTime> confirmationDate) {
 		this.address = address;
 		this.itens = itens;
 		this.status = status;
-		this.confirmationDate = Optional.ofNullable(confirmationDate);
+		this.confirmationDate = confirmationDate;
 	}
 
 	public final String getAddress() {
@@ -101,5 +110,6 @@ public class Order implements Serializable {
 				+ ", confirmationDate=" + confirmationDate + "]";
 	}
 
+	
 	
 }
