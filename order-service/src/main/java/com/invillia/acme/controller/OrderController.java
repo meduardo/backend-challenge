@@ -32,7 +32,7 @@ import com.invillia.acme.validation.Violation;
 
 /**
  * 
- * Controller responsável por obter as informações de Playlist desejada.
+ * Controller responsável por obter as informações dos pedidos desejados.
  * 
  * @author <a href="mailto:m.eduardo5@gmail.com">Mario Eduardo Giolo</a>
  *
@@ -43,9 +43,9 @@ public class OrderController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 	
-	private static final Supplier<Violation> INVALID_ADDRESS = () -> Violation.of("order.address.invalid.message", "order.address");
-	private static final Supplier<Violation> INVALID_ITENS = () -> Violation.of("order.address.invalid.itens", "order.itens");
-	private static final Supplier<Violation> NOT_FOUND_ITEM = () -> Violation.of("order.address.notfound.item", "order.itens");
+	private static final Supplier<Violation> INVALID_ADDRESS = () -> Violation.of("order.address.invalid.value", "order.address");
+	private static final Supplier<Violation> INVALID_ITENS = () -> Violation.of("order.itens.invalid.value", "order.itens");
+	private static final Supplier<Violation> NOT_FOUND_ITEM = () -> Violation.of("order.itens.notfound", "order.itens");
  	
 	
 	@Autowired
@@ -75,8 +75,8 @@ public class OrderController {
 		
 		Validator.with(
 					HttpStatus.BAD_REQUEST.value(), 
-				   	checkAddress(orderDTO),
-				    hasItens(orderDTO)
+				   	checkAddress(orderDTO.getAddress()),
+				    hasItens(orderDTO.getItens())
 				 )
 			 	 .execute();
 
@@ -87,9 +87,7 @@ public class OrderController {
 											 .map(itemService::findBy)
 										     .collect(Collectors.toList());
 		
-		Validator.with(HttpStatus.BAD_REQUEST.value(), 
-					   
-					   checkItensExist(itens))
+		Validator.with(HttpStatus.BAD_REQUEST.value(), checkItensExist(itens))
 		         .execute();
 		
 		try {
@@ -113,19 +111,13 @@ public class OrderController {
 						 .onFail(NOT_FOUND_ITEM);
 	}
 	
-	private Validation checkAddress(final OrderDTO dto) {
-		return Validation.rule(() -> {
-									String address = dto.getAddress();
-		   							return address != null && !address.trim().isEmpty();
-		 				       })
+	private Validation checkAddress(final String address) {
+		return Validation.rule(() -> address != null && !address.trim().isEmpty())
 						 .onFail(INVALID_ADDRESS);
 	}
 	
-	private Validation hasItens(final OrderDTO dto) {
-		return Validation.rule(() -> {
-									List<ItemDTO> itens = dto.getItens();
-									return Objects.nonNull(itens) && !itens.isEmpty();
-							   })
+	private Validation hasItens(final List<ItemDTO> itens) {
+		return Validation.rule(() -> Objects.nonNull(itens) && !itens.isEmpty())
 						 .onFail(INVALID_ITENS);
 	}
 
