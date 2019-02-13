@@ -51,5 +51,42 @@ public class Violation {
 							 requireNonNull(path, "Validated field"), 
 							 params);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((messageKey == null) ? 0 : messageKey.hashCode());
+		result = prime * result + ((params == null) ? 0 : params.hashCode());
+		result = prime * result + ((path == null) ? 0 : path.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Violation other = (Violation) obj;
+		if (messageKey == null) {
+			if (other.messageKey != null)
+				return false;
+		} else if (!messageKey.equals(other.messageKey))
+			return false;
+		if (params == null) {
+			if (other.params != null)
+				return false;
+		} else if (!params.equals(other.params))
+			return false;
+		if (path == null) {
+			if (other.path != null)
+				return false;
+		} else if (!path.equals(other.path))
+			return false;
+		return true;
+	}
 	
 }

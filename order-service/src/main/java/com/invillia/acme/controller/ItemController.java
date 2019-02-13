@@ -40,8 +40,10 @@ public class ItemController {
 	
 	private static final Supplier<Violation> INVALID_DESCRIPTION = () -> Violation.of("item.description.invalid.value", "order.address");
 	private static final Supplier<Violation> INVALID_PRICE = () -> Violation.of("item.price.invalid.value", "item.price");
-	private static final Supplier<Violation> INVALID_AMOUNT = () -> Violation.of("item.amount.invalid.value", "order.amount");
+	private static final Supplier<Violation> INVALID_AMOUNT = () -> Violation.of("item.amount.invalid.value", "item.amount");
+	private static final Supplier<Violation> INVALID_ITEM = () -> Violation.of("item.invalid.value", "item");
  	
+	
 	@Autowired
 	private ItemService itemService;
 
@@ -63,6 +65,14 @@ public class ItemController {
 	public final ResponseEntity<ItemDTO> createItem(@RequestBody final ItemDTO itemDTO) {
 		
 		LOGGER.info("Creating item, content: [{}]", itemDTO);
+		
+		Validator.with(
+				HttpStatus.BAD_REQUEST.value(), 
+				Validation.rule(() -> Objects.nonNull(itemDTO))
+				 		  .onFail(INVALID_ITEM)
+			 )
+		 	 .execute();
+
 		
 		Validator.with(
 					HttpStatus.BAD_REQUEST.value(), 

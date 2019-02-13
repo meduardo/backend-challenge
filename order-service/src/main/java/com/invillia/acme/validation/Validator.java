@@ -46,7 +46,6 @@ public class Validator {
 		LOGGER.error("Error(s) in validation - {}", errors);
 
 		throw BusinessException.with(errors, httpStatusCode); 
-
 	}
 	
 	private final Set<Violation> processValidations() {

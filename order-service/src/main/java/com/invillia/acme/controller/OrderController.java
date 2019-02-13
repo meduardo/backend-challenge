@@ -103,7 +103,7 @@ public class OrderController {
 												 .map(Optional::get)
 												 .collect(Collectors.toList())
 										 );
-			
+			LOGGER.info("Created order : [{}]", created);
 			return ResponseEntity.ok(orderMapper.toDTO(created));
 			
 		} catch (Exception e) {

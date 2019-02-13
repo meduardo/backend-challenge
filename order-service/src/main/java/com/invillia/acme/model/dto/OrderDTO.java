@@ -68,7 +68,57 @@ public class OrderDTO {
 	public void setConfirmationDate(Optional<LocalDateTime> confirmationDate) {
 		this.confirmationDate = confirmationDate;
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((confirmationDate == null) ? 0 : confirmationDate.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((itens == null) ? 0 : itens.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OrderDTO other = (OrderDTO) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
+		if (confirmationDate == null) {
+			if (other.confirmationDate != null)
+				return false;
+		} else if (!confirmationDate.equals(other.confirmationDate))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (itens == null) {
+			if (other.itens != null)
+				return false;
+		} else if (!itens.equals(other.itens))
+			return false;
+		if (status != other.status)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderDTO [id=" + id + ", address=" + address + ", itens=" + itens + ", status=" + status
+				+ ", confirmationDate=" + confirmationDate + "]";
+	}
 	
 }
