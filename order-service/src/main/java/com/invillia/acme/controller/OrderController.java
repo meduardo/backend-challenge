@@ -46,8 +46,8 @@ public class OrderController {
 	private static final Supplier<Violation> INVALID_ADDRESS = () -> Violation.of("order.address.invalid.value", "order.address");
 	private static final Supplier<Violation> INVALID_ITENS = () -> Violation.of("order.itens.invalid.value", "order.itens");
 	private static final Supplier<Violation> NOT_FOUND_ITEM = () -> Violation.of("order.itens.notfound", "order.itens");
+	private static final Supplier<Violation> NOT_FOUND_ORDER = () -> Violation.of("order.id.notfound", "order.id");
  	
-	
 	@Autowired
 	private OrderService orderService;
 
@@ -62,10 +62,16 @@ public class OrderController {
 		
 		LOGGER.info("Searching order - id: [{}]", orderId);
 		
-		return orderService.findBy(orderId)
-						   .map(orderMapper::toDTO)
-						   .map(ResponseEntity::ok)
-						   .orElseGet(ResponseEntity.notFound()::build);
+		Optional<OrderDTO> found = orderService.findBy(orderId)
+				   							   .map(orderMapper::toDTO);
+		
+		Validator.with(HttpStatus.NOT_FOUND.value(),
+					   Validation.rule(found::isPresent)
+					   			 .onFail(NOT_FOUND_ORDER))
+				 .execute();
+		
+		return found.map(ResponseEntity::ok)
+					.orElseGet(ResponseEntity.notFound()::build);
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,  consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)

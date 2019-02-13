@@ -8,6 +8,9 @@ import java.util.Set;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Permite executar uma sequência de validações desejadas, de forma declarativa,
  * especificando qual status code deve ser retornado.
@@ -15,7 +18,9 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:m.eduardo5@gmail.com">Mario Eduardo Giolo</a>
  */
 public class Validator {
-	
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(Validator.class);
+
 	private static final IntPredicate IS_HTTP_STATUS_ERROR = status -> status >= 400 && status < 600; 
 	private static final String NOT_STATUS_ERROR_MSG = "Error creating validations, httpStatusCode [%s] is not a valid status error! Only 4xx, 5xx expected, verify!";
 	
@@ -37,7 +42,9 @@ public class Validator {
 		if(errors.isEmpty()) {
 			return;
 		}
-		
+
+		LOGGER.error("Error(s) in validation - {}", errors);
+
 		throw BusinessException.with(errors, httpStatusCode); 
 
 	}
