@@ -23,68 +23,65 @@ import com.invillia.acme.validation.Violation;
  */
 @ControllerAdvice
 @RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-
 public class BusinessExceptionHandler extends ResponseEntityExceptionHandler {
 
-
-	  @ExceptionHandler(BusinessException.class)
-	  public ResponseEntity<ErrorsDTO> businessEception(final BusinessException exc) {
+	@ExceptionHandler(BusinessException.class)
+	public ResponseEntity<ErrorsDTO> businessEception(final BusinessException exc) {
+	
+		Set<ErrorInfo> errors = exc.violations()
+		 	  	 				   .stream()
+				  	 			   .map(ErrorInfo::valueOf)
+				  	 			   .collect(Collectors.toSet());
 		  
-		  Set<ErrorInfo> errors = exc.violations()
-				  	 				 .stream()
-				  	 				 .map(ErrorInfo::valueOf)
-				  	 				 .collect(Collectors.toSet());
-		  
-		  return new ResponseEntity<>(new ErrorsDTO(exc.httpStatus(), errors), HttpStatus.valueOf(exc.httpStatus()));
-	  }
+		return new ResponseEntity<>(new ErrorsDTO(exc.httpStatus(), errors), HttpStatus.valueOf(exc.httpStatus()));
+	}
 
+	public static class ErrorsDTO {
 
-	  public static class ErrorsDTO {
-		  
-		  private final int status;
-		  private final Set<ErrorInfo> errors;
+		private final int status;
+		private final Set<ErrorInfo> errors;
 
-		  public ErrorsDTO(final int status, final Set<ErrorInfo> errors) {
-			  this.status = status;
-			  this.errors = errors;
-		  }
+		public ErrorsDTO(final int status, final Set<ErrorInfo> errors) {
+			this.status = status;
+			this.errors = errors;
+		}
 
-		  public Set<ErrorInfo> getErrors() {
-			  return errors;
-		  }
+		public Set<ErrorInfo> getErrors() {
+			return errors;
+		}
 
-		  public int getStatus() {
-			  return status;
-		  }
+		public int getStatus() {
+			return status;
+		}
 
-	  }
-	  
-	  public static class ErrorInfo {
-		  
-		  private final String message;
+	}
 
-		  private final String field;
+	public static class ErrorInfo {
+		
+		private final String message;
 
-		  public ErrorInfo(final String message, final String field) {
-			  this.message = message;
-			  this.field = field;
-		  }
+		private final String field;
 
-		  public static final ErrorInfo valueOf(final Violation error) {
-			  //TODO usar um bundle para monter a mensagem de erro com base na chave, e nos params.
-			  return new ErrorInfo(
-					  	error.getMessageKey(),
-					  	error.getPath()
-					 );
-		  }
-		  public String getMessage() {
-			  return message;
-		  }
+		public ErrorInfo(final String message, final String field) {
+			this.message = message;
+			this.field = field;
+		}
 
-		  public String getField() {
-			  return field;
-		  }
+		public static final ErrorInfo valueOf(final Violation error) {
+			//TODO usar um bundle para monter a mensagem de erro com base na chave, e nos params.
+			return new ErrorInfo(
+						error.getMessageKey(),
+						error.getPath()
+					);
+		}
+		public String getMessage() {
+			return message;
+		}
 
+		public String getField() {
+			return field;
+		}
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -115,6 +112,6 @@ public class BusinessExceptionHandler extends ResponseEntityExceptionHandler {
 				return false;
 			return true;
 		}
-		  
-	  }
+
+	}
 }

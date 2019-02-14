@@ -38,6 +38,18 @@ public class Order implements Serializable {
 		this.confirmationDate = confirmationDate;
 	}
 
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
+	public void setConfirmationDate(Optional<LocalDateTime> confirmationDate) {
+		this.confirmationDate = confirmationDate;
+	}
+
 	public final String getAddress() {
 		return address;
 	}
