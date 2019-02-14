@@ -61,11 +61,11 @@ public class OrderServiceImpl implements OrderService {
 						})
 						.map(orderRepo::save)
 						.map(order -> new PaymentRequest(id, value, someSpecificInfo))
+						.map(this::sendPayment)
 						.orElseThrow(() -> new RuntimeException()); //TODO usar exceção de negócio
 	}
 	
-	public void sendPayment(final PaymentRequest payment) {
-        LOGGER.info("Sending payment: {}", payment);
+	public PaymentRequest sendPayment(final PaymentRequest payment) {
        
         paymentsEventBus.outboundPayments()
         				.send(MessageBuilder.withPayload(payment)
@@ -73,6 +73,8 @@ public class OrderServiceImpl implements OrderService {
 							                		   MimeTypeUtils.APPLICATION_JSON)
 							                .build()
 					    );
+        LOGGER.info("Sended: {}", payment);
+        return payment;
     }
 
 
