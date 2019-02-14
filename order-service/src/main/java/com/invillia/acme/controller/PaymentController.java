@@ -30,9 +30,9 @@ import com.invillia.acme.validation.Violation;
  */
 @RestController
 @RequestMapping("/v1/payments")
-public class PaymentOrderController {
+public class PaymentController {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(PaymentOrderController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PaymentController.class);
 	
 	private static final Supplier<Violation> INVALID_ORDER = () -> Violation.of("payment.invalid.order", "order.id");
  	
@@ -55,7 +55,11 @@ public class PaymentOrderController {
 			 	 .execute();
 
 		try {
-			PaymentRequest created = orderService.requestPay(paymentInfo.getOrderId(), paymentInfo.getValue(), paymentInfo.getSomeSpecificInfo());
+			PaymentRequest created = orderService.requestPay(
+											paymentInfo.getOrderId(), 
+											paymentInfo.getValue(), 
+											paymentInfo.getSomeSpecificInfo()
+									 );
 			
 			LOGGER.info("Payment requested.: [{}]", created);
 			
