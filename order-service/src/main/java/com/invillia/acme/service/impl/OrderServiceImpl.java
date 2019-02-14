@@ -62,7 +62,6 @@ public class OrderServiceImpl implements OrderService {
 						.map(orderRepo::save)
 						.map(order -> new PaymentRequest(id, value, someSpecificInfo))
 						.orElseThrow(() -> new RuntimeException()); //TODO usar exceção de negócio
-		
 	}
 	
 	public void sendPayment(final PaymentRequest payment) {

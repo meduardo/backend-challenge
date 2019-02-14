@@ -2,6 +2,7 @@ package com.invillia.acme;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -10,10 +11,18 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
+import com.invillia.acme.messaging.PaymentsChannels;
+
+/**
+ * 
+ * @author <a href="mailto:m.eduardo5@gmail.com">Mario Eduardo Giolo</a>
+ *
+ */
 @Configuration
 @EnableRedisRepositories
 @EnableConfigurationProperties
-public class RedisConfiguration {
+@EnableBinding(PaymentsChannels.class)
+public class Config {
 
 	@Value("${spring.redis.host}")
 	private String redisHost;

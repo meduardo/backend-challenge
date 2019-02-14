@@ -56,7 +56,9 @@ public class PaymentOrderController {
 
 		try {
 			PaymentRequest created = orderService.requestPay(paymentInfo.getOrderId(), paymentInfo.getValue(), paymentInfo.getSomeSpecificInfo());
+			
 			LOGGER.info("Payment requested.: [{}]", created);
+			
 			return ResponseEntity.ok(paymentMapper.toDTO(created));
 			
 		} catch (Exception e) {
