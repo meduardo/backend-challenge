@@ -7,6 +7,10 @@ import java.math.BigDecimal;
  * @author <a href="mailto:m.eduardo5@gmail.com">Mario Eduardo Giolo</a>
  *
  */
+/**
+ * @author <a href="mailto:m.eduardo5@gmail.com">Mario Eduardo Giolo</a>
+ *
+ */
 public class PaymentRequest {
 	
 	private long id;
@@ -93,6 +97,12 @@ public class PaymentRequest {
 		} else if (!value.equals(other.value))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "PaymentRequest [id=" + id + ", orderId=" + orderId + ", value=" + value + ", someSpecificInfo="
+				+ someSpecificInfo + "]";
 	}
 	
 	
