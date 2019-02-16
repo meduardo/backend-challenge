@@ -22,7 +22,7 @@ import com.invillia.acme.service.impl.OrderServiceImpl;
 @EnableBinding(Source.class)
 public class PaymentsProducer {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PaymentsProducer.class);
 	
 	@Autowired
 	private Source source;

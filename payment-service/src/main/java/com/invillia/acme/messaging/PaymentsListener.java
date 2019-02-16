@@ -18,16 +18,16 @@ import com.invillia.acme.event.PaymentRequest;
  *
  */
 @EnableBinding(Processor.class)
-public class PaymentListener {
+public class PaymentsListener {
 	
-    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentsListener.class);
     
     @SendTo(Processor.OUTPUT)
     @StreamListener(target = Processor.INPUT)
     public Message<String> processPayment(Message<PaymentRequest> paymentRequest) {
         
-        LOGGER.info("Processing payment: {}", paymentRequest);
-
+        LOGGER.info("Processing payment: {}", paymentRequest.getPayload());
+        
         return MessageBuilder.withPayload("-SOME-RESULT-MESSAGE-")
                 			 .build();
     }

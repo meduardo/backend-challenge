@@ -1,18 +1,16 @@
 package com.invillia.acme.event;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 
  * @author <a href="mailto:m.eduardo5@gmail.com">Mario Eduardo Giolo</a>
  *
  */
-/**
- * @author <a href="mailto:m.eduardo5@gmail.com">Mario Eduardo Giolo</a>
- *
- */
-public class PaymentRequest {
+public class PaymentRequest implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	private long id;
 	
 	private long orderId;
