@@ -10,6 +10,8 @@ import com.invillia.acme.model.entity.Order;
 
 public interface OrderService {
 	
+	Order save(final Order order); 
+	
 	boolean exists(final long id);
 	
 	Optional<Order> findBy(final long id);

@@ -86,7 +86,6 @@ public class OrderController {
 				 )
 			 	 .execute();
 
-		
 		List<Optional<Item>> itens = orderDTO.getItens()
 									  		 .stream()
 											 .map(ItemDTO::getId)
@@ -110,7 +109,7 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
+
 	private Validation checkItensExist(final List<Optional<Item>> itens) {
 		return Validation.rule(() -> itens.stream()
 										  .allMatch(Optional::isPresent))

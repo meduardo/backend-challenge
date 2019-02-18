@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.support.MessageBuilder;
 
 import com.invillia.acme.event.PaymentRequest;
+import com.invillia.acme.event.PaymentStatus;
 
 /**
  * Processa os pagamentos
@@ -18,17 +19,19 @@ import com.invillia.acme.event.PaymentRequest;
  *
  */
 @EnableBinding(Processor.class)
-public class PaymentsListener {
+public class PaymentsProcessor {
 	
-    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentsListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentsProcessor.class);
     
     @SendTo(Processor.OUTPUT)
     @StreamListener(target = Processor.INPUT)
-    public Message<String> processPayment(Message<PaymentRequest> paymentRequest) {
+    public Message<PaymentStatus> processPayment(Message<PaymentRequest> paymentRequest) {
         
-        LOGGER.info("Processing payment: {}", paymentRequest.getPayload());
+    	PaymentRequest request = paymentRequest.getPayload();
+    	
+        LOGGER.info("Processing payment: {}", request);
         
-        return MessageBuilder.withPayload("-SOME-RESULT-MESSAGE-")
+        return MessageBuilder.withPayload(new PaymentStatus(request.getId(), request.getOrderId(), "sucess"))
                 			 .build();
     }
 

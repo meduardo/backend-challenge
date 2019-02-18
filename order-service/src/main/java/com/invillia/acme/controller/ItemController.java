@@ -43,7 +43,6 @@ public class ItemController {
 	private static final Supplier<Violation> INVALID_AMOUNT = () -> Violation.of("item.amount.invalid.value", "item.amount");
 	private static final Supplier<Violation> INVALID_ITEM = () -> Violation.of("item.invalid.value", "item");
  	
-	
 	@Autowired
 	private ItemService itemService;
 

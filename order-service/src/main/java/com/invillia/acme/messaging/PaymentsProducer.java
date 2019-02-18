@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
 
 import com.invillia.acme.event.PaymentRequest;
-import com.invillia.acme.service.impl.OrderServiceImpl;
 
 /**
  * 

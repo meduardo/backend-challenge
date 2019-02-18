@@ -17,6 +17,11 @@ import com.invillia.acme.model.entity.OrderStatus;
 import com.invillia.acme.repository.OrderRepository;
 import com.invillia.acme.service.OrderService;
 
+/**
+ * 
+ * @author <a href="mailto:m.eduardo5@gmail.com">Mario Eduardo Giolo</a>
+ *
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -29,24 +34,29 @@ public class OrderServiceImpl implements OrderService {
 	private OrderRepository orderRepo;
 	
 	@Override
-	public Optional<Order> findBy(long id) {
+	public final Optional<Order> findBy(final long id) {
 		return orderRepo.findById(id);
 	}
 
 	@Override
-	public Order create(String address, List<Item> itens) {
+	public Order create(final String address, final List<Item> itens) {
 		return orderRepo.save(
 					  new Order(address, itens, OrderStatus.CREATED, Optional.empty())		
 			   );
 	}
 
 	@Override
-	public boolean exists(long id) {
+	public final Order save(final Order order) {
+		return orderRepo.save(order);
+	}
+	
+	@Override
+	public final boolean exists(final long id) {
 		return orderRepo.existsById(id);
 	}
 
 	@Override
-	public PaymentRequest requestPay(long id, final BigDecimal value, final String someSpecificInfo) {
+	public final PaymentRequest requestPay(long id, final BigDecimal value, final String someSpecificInfo) {
 		
 		LOGGER.info("Requesting payment: Order: [{}], Value:[{}], Other Info: [{}]", id, value, someSpecificInfo);
 		

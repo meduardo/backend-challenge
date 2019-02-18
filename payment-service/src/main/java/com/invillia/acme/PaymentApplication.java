@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author <a href="mailto:m.eduardo5@gmail.com">Mario Eduardo Giolo</a>
  *
  */
-//@EnableAsync
 @SpringBootApplication
 public class PaymentApplication {
 
